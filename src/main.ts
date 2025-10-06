@@ -1,8 +1,25 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { Logger } from '@nestjs/common';
+
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Swagger configuration
+  const config = new DocumentBuilder()
+    .setTitle('Todo API')
+    .setDescription('API documentation for the Todo app')
+    .setVersion('1.0')
+    .build();
+
+  // Create Swagger document
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+
   await app.listen(process.env.PORT ?? 3000);
+
+  Logger.log(`Server started running on: ${await app.getUrl()}`, 'Bootstrap');
 }
-bootstrap();
+void bootstrap();
