@@ -16,10 +16,19 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
+  afterEach(async () => {
+    if (app) await app.close();
+  });
+
   it('/ (GET)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect(res => {
+        expect(res.body.status).toBe('ok');
+        expect(res.body.message).toBe('API is running 🚀');
+        expect(typeof res.body.uptime).toBe('number');
+        expect(typeof res.body.timestamp).toBe('string');
+      });
   });
 });
