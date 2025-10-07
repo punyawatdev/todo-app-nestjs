@@ -13,8 +13,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getRoot()).toBe({
+    it('should return the root response', () => {
+      expect(appController.getRoot()).toMatchObject({
         status: 'ok',
         message: 'API is running 🚀',
         uptime: expect.any(Number),
